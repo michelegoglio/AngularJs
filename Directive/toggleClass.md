@@ -10,6 +10,6 @@
             });
         }
     };
-});`
+});
 
-`<button id="btn" toggle-class="active">Change Class</button>`
+<button id="btn" toggle-class="active">Change Class</button>`
