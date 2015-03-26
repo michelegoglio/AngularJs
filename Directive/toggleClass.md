@@ -1,6 +1,7 @@
 # Directive toggleClass
 
-`module.directive('toggleClass', function() {
+```
+module.directive('toggleClass', function() {
     return {
         restrict: 'A',
         link: function(scope, element, attrs) {
@@ -9,6 +10,9 @@
             });
         }
     };
-});`
+});
+```
 
-`<button id="btn" toggle-class="active">Change Class</button>`
+```
+<button id="btn" toggle-class="active">Change Class</button>
+```
