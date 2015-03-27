@@ -1,3 +1,4 @@
+http://www.tinci.fr/blog/apprendre-angular-en-un-jour-le-guide-ultime/
 #Apprendre Angular en un jour, le guide ultime
 
 ##Qu'est-ce qu'AngularJS ?
@@ -642,6 +643,269 @@ myApp.controller('EmailsCtrl', ['$scope', function ($scope) {
 }]);
 ````
 
+Nous devons maintenant faire le lien avec notre HTML. 
 
+C'est là que nous allons utiliser le binding déclaratif pour indiquer ce que va faire l'application - créer notre premier morceau de HTML dynamique. 
 
+Nous allons utiliser la directive ng-repeat d'Angular qui va parcourir les données et générer un résultat sans que nous ayons à faire de callbacks ou de changements d'état, c'est gratuit :
 
+````
+<ul>
+  <li ng-repeat="message in emails.messages">
+    <p>From: {{ message.from }}</p>
+    <p>Subject: {{ message.subject }}</p>
+    <p>{{ message.sent | date:'MMM d, y h:mm:ss a' }}</p>
+  </li>
+</ul>
+````
+J'ai également ajouté un filtre pour vous montrer comment afficher correctement une date UTC.
+
+Documentez-vous sur les directives `ng-*` d'Angular, cela vous permettra d'exploiter pleinement le binding de directives, cela vous montre comment faire le lien entre les données du serveur, la couche modèle et la vue et comment afficher les données.
+
+##Les fonctions de scope
+
+Après le binding de directives, les fonctions de scope sont la suite logique dans la création d'une application. 
+
+Voici une fonction assez simple nous permettant de supprimer un email dans notre collection :
+
+````
+myApp.controller('MainCtrl', ['$scope', function ($scope) {
+
+  $scope.deleteEmail = function (index) {
+    $scope.emails.messages.splice(index, 1)
+  };
+
+}]);
+````
+
+Astuce: Il est important de penser en termes de suppression au niveau du modèle. Vous ne touchez à rien de ce qui concerne le DOM, Angular est un framework MVC et se charge de tout grâce à son binding de données à deux sens et à son fonctionnement sans callbacks, il vous suffit d'organiser votre code de façon à ce qu'il réponde à vos données !
+
+L'attachement des fonctions au scope se fait également par le biais des directives `ng-*`, dans le cas suivant, il s'agit de `ng-click` :
+````
+<a ng-click="deleteEmail($index)">Delete email</a>
+````
+
+Ceci est très différent d'un événement click inline et ce pour plusieurs raisons dont je vous parlerai bientôt. Comme vous pouvez le voir, je passe `$index` en paramètre. Angular sait quel élément vous êtes en train de supprimer :
+
+Résulat (supprimez quelques emails !) :
+
+##Méthodes de DOM déclaratives
+
+Nous allons maintenant voir les méthodes de DOM. Elles sont comme les directives et permettent d'ajouter au DOM des fonctionnalités pour lesquelles vous auriez, en temps normal, beaucoup de code à écrire. 
+
+Un très bon exemple serait une navigation déroulante. En utilisant `ng-show` et `ng-click` nous pouvons mettre cela en place très simplement :
+
+````
+<a href="" ng-click="toggle = !toggle">Afficher menu</a>
+<ul ng-show="toggle">
+  <li>Lien 1</li>
+  <li>Lien 2</li>
+  <li>Lien 3</li>
+</ul>
+````
+C'est ici que MVVM entre en jeu. Comme vous pouvez le voir, il n'y a pas de contrôleur à écrire. Nous reviendrons bientôt sur MVVM.
+
+##Les expressions
+
+C'est une des choses que je préfère dans Angular, ce pour quoi on utilise habituellement JavaScript en écrivant beaucoup de code répétitif.
+
+Avez-vous déjà fait ceci ?
+
+````
+elem.onclick = function (data) {
+  if (data.length === 0) {
+    otherElem.innerHTML = 'No data';
+  } else {
+    otherElem.innerHTML = 'My data';
+  }
+};
+````
+
+Ce pourrait par exemple être le callback d'une requête GET dans lequel vous modifiez le DOM en fonction de l'état des données. Angular vous permet de faire la même chose sans écrire une ligne de JavaScript !
+
+````
+<p>{{ data.length > 0 && 'My data' || 'No data' }}</p>
+````
+
+Ce morceau de DOM va être automatiquement mis à jour, sans besoin de callback, au fur et à mesure que votre application récupère les données. 
+
+Il vous indiquera si des données sont présentes ou non. 
+
+Il y a une de très nombreux cas d'usage et Angular le gère automatiquement grâce au binding de données à deux sens.
+
+##Routage et vues dynamiques
+
+La philosophie des applications côté client (et des applications web en général) est assez simple : Vous avez un header, un footer, une sidebar et le contenu au milieu injecte du contenu par magie en fonction de l'URL.
+
+Angular facilite beaucoup la mise en place d'un tel mécanisme, ce qu'on appellerait les vues dynamiques. Les vues sont injectées dynamiquement au travers de $routeProvider, en fonction de l'URL.
+
+````
+myApp.config(['$routeProvider', function ($routeProvider) {
+
+  /**
+   * $routeProvider
+   */
+  $routeProvider
+  .when('/', {
+    templateUrl: 'views/main.html'
+  })
+  .otherwise({
+    redirectTo: '/'
+  });
+
+}]);
+````
+
+Lorsque vous êtes sur l'URL `/` (la page d'accueil du site), le template utilisé est `main.html`. Vous devez appeler votre vue initiale `main.html` puisque vous avez déjà un fichier `index.html` contenant votre site en page unique. Il est très simple d'ajouter des vues supplémentaires en fonction de l'URL :
+
+````
+myApp.config(['$routeProvider', function ($routeProvider) {
+
+  /**
+   * $routeProvider
+   */
+  $routeProvider
+  .when('/', {
+    templateUrl: 'views/main.html'
+  })
+  .when('/emails', {
+    templateUrl: 'views/emails.html'
+  })
+  .otherwise({
+    redirectTo: '/'
+  });
+
+}]);
+````
+
+Nous pouvons par exemple charger le HTML de notre liste d'emails quand on visite l'URL `emails.html.` Vous pouvez créer une application sophistiquée avec assez peu d'efforts.
+
+`$routeProvider` propose d'autres fonctionnalités qui valent la peine de fouiller un peu, mais avec ceci vous avez déjà de quoi faire des choses intéressantes. Il y a, par exemple, les intercepteurs `$http` qui émettent des événements lorsqu'une requête Ajax est en cours, ce qui permettrait d'afficher un spinner pendant que les données sont récupérées.
+
+##Données statiques globales
+
+Gmail récupère une bonne partie de ses données en les écrivant en JSON dans la page (inspectez les sources de la page). Si vous voulez accéder instantanément à vos données dès le chargement de l'application et accélérer son lancement, cette technique est très pratique.
+
+Lorsque je développe nos applications, des balises issues de Java sont insérées dans le DOM et, une fois l'application chargée, les données viennent du serveur. Je parle ici de Java mais vous pouvez utiliser n'importe quel langage côté serveur. Voici comment ajouter le JSON dans votre page et comment le charger ensuite depuis un contrôleur :
+
+````
+<!-- dans index.html (en bas de page) -->
+<script>
+window.globalData = {};
+globalData.emails = <baliseJavaPourGenererLesMessages>;
+</script>
+````
+
+Ma balise Java va être remplacée par les bonnes données au moment de l'affichage et Angular va affiche instantanément les emails. Récupérez simplement les données dans un contrôleur :
+
+````
+myApp.controller('EmailsCtrl', ['$scope', function ($scope) {
+
+    $scope.emails = {};
+
+    // Assigner les données initiales !
+    $scope.emails.messages = globalData.emails;
+
+}]);
+````
+
+##Minification (réduction du code)
+
+Je vais parler rapidement de minification avec le code Angular. Vous avez probablement joué un peu avec Angular et avez peut-être utilisé un minifier… et eu une erreur !
+
+Minifier le code AngularJS est simple, vous devez simplement spécifier les injections de dépendances dans un tableau, avant la fonction :
+
+````
+myApp.controller('MainCtrl',
+['$scope', 'Dependency', 'Service', 'Factory',
+function ($scope, Dependency, Service, Factory) {
+
+  // code
+
+}]);
+````
+
+Une fois minifié :
+
+````
+myApp.controller('MainCtrl',
+['$scope', 'Dependency', 'Service', 'Factory',
+function (a,b,c,d) {
+
+  // a = $scope
+  // b = Dependency
+  // c = Service
+  // d = Factory
+
+  // $scope alias usage
+  a.someFunction = function () {...};
+
+}]);
+````
+
+Rappelez-vous bien de garder la liste des injections dans le même ordre que les paramètres de la fonction, vous risqueriez un bon mal de crâne dans le cas contraire.
+
+#Différences avec MVC et MVVM
+
+Nous arrivons à la fin de ce long article sur AngularJS. Je vais cependant faire une passe rapide sur les différences avec MVC/MVVM dont AngularJS est fier :
+
+* MVC: parle avec un contrôleur, Modèle-Vue-Contrôleur
+* MVVM: encapsule une binding de données déclaratif qui, techniquement, se parle à lui-même. Modèle-Vue-Vue-Modèle. 
+Le modèle parle à la vue et la vue peut parler au modèle. Le binding de données à deux sens d'Angular permet de garder cette synchronisation sans rien avoir à écrire. Cela vous permet d'écrire de la logique sans contrôleur.
+Un exemple rapide, vous pouvez utiliser `ng-repeat` sans contrôleur en fournissant directement les données :
+
+````
+<li ng-repeat="number in [1,2,3,4,5,6,7,8,9]">
+  {{ number }}
+</li>
+````
+
+Pour un test rapide c'est acceptable mais je vous conseille de toujours avoir un contrôleur lorsque vous développez.
+
+# HTML5 Web Components
+
+Comme nous l'avons vu plus haut, AngularJS permet de créer des éléments personnalisés :
+
+````
+<myCustomElement></myCustomElement>
+````
+
+Cela permet d'aligner le web sur le futur de HTML5 qui introduit les web components et l'élément `<template>`. 
+
+Angular nous permet de les utiliser dès aujourd'hui. Les web components mélangent éléments personnalisés et injection dynamique de JavaScript pour peupler dynamiquement la vue, c'est très excitant et déjà possible avec Angular !
+
+Ils ont un cran d'avance et permettent de s'assurer que ce qui arrive fonctionne - chapeau bas.
+
+# Commentaires de scope
+
+Les commentaires de scopes sont, selon moi, utiles dans mon workflow. Plutôt que d'ajouter des commentaires comme ceci dans mon HTML :
+
+````
+<!-- header -->
+<header>
+  Stuff.
+</header>
+<!-- /header -->
+````
+
+Lorsque l'on parle d'Angular, il faut penser en termes de vues et de scopes, pas de DOM ! 
+
+Les scopes sont cloisonnés, ce qui signifie que, à moins de partager délibérément les données entre les contrôleurs, vos données sont encapsulées et inaccessibles de l'extérieur. Je trouve que noter les régions cloisonnées aide beaucoup :
+
+Les commentaires de scopes sont, selon moi, utiles dans mon workflow. Plutôt que d'ajouter des commentaires comme ceci dans mon HTML :
+
+````
+<!-- scope: MainCtrl -->
+<div class="content" ng-controller="MainCtrl">
+
+</div>
+<!-- /scope: MainCtrl -->
+````
+
+# Debugger AngularJS
+
+Il y a une extension Chrome géniale que les gens de Google recommandent pour développer et debugger avec Angular, il s'agit de Batarang.
+
+À lire également
+
+Apprenez comment créer votre propre directive depuis un script ou un plugin.
