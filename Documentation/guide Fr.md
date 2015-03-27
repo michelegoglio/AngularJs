@@ -37,3 +37,18 @@ Un groupe d’id d'utilisateurs pourrait par exemple ressembler à ceci :
   }]
 }
 ````
+Vous pouvez accéder à cette information de deux façons. En passant par une XHR (XMLHttp Request), vous connaissez sûrement $.ajax en jQuery, Angular l'encapsule dans $http. 
+
+L'autre méthode est de l'écrire dans le code de la page pour qu'elle soit chargée pendant l'interprétation (depuis un datastore ou une base de données). 
+
+Une fois que vous avez accès à l'information, vous pouvez mettre à jour votre modèle et le renvoyer.
+
+####Vue
+
+La vue est simple, c'est votre HTML et/ou la sortie générée. Lorsque vous utilisez un framework MVC, vous utilisez les données issues du Modèle pour mettre votre Vue à jour et afficher les bonnes informations dans votre HTML.
+
+####Contrôleur
+
+Comme son nom l'indique, cette couche contrôle des choses. 
+Mais quelles choses ? Des données. 
+Les contrôleurs permettent à votre serveur de communiquer avec la Vue, c'est le messager, vous pouvez donc mettre vos données à jour à la volée via ces canaux de communication entre le serveur et le client.
