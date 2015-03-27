@@ -178,3 +178,43 @@ function MainCtrl ($scope) {
   //...
 };
 ````
+
+… N'en faites rien. 
+
+Cela expose toutes vos fonctions au contexte global et ne les cantonne pas à votre application. 
+
+Cela signifie également que vous ne pouvez pas minifier votre code ou le tester facilement. Ne remplissez pas le namespace global et gardez vos contrôleurs dans votre application.
+
+
+###Directives
+
+Une directive (lisez mon article sur les directives issues de scripts/plugins existants [en]), dans sa forme la plus simple, est un petit morceau de template HTML, utilisé de préférence à plusieurs endroits de l'application. 
+
+C'est un moyen facile d'injecter sans effort du DOM dans votre application ou d'effectuer des interactions particulières avec le DOM. 
+
+Les directives ne sont pas simples pour autant et la courbe d'apprentissage pour les maitriser est assez importante. Ce qui suit devrait tout de même vous donner un bon point de départ.
+
+À quoi servent donc les directives ?
+
+Beaucoup de choses dont la création de composants DOM (onglets ou éléments de navigation) - tout dépend de l'usage que votre application fait de l'interface utilisateur. 
+
+Si vous avez, par exemple, joué un peu avec `ng-show` ou `ng-hide`, ce sont des directives (qui n'injectent pas de DOM).
+
+Pour cet exercice, je vais faire simple et créer un type de bouton personnalisé (appelé `customButton`) qui injecte quelques balises que je déteste devoir écrire partout. 
+
+Il y a plusieurs façons de définir une directive dans le DOM. Voici quelques exemples :
+````
+<!-- 1: déclaration en tant qu'attribut -->
+<a custom-button>Click me</a>
+
+<!-- 2: en tant que nouvel élément -->
+<custom-button>Click me</custom-button>
+
+<!-- 3: en tant que classe (pour être compatible avec les vieux IE) -->
+<a class="custom-button">Click me</a>
+
+<!-- 4: en tant que commentaire (peu adapté à cette démo) -->
+<!-- directive: custom-button -->
+````
+
+
