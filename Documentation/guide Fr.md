@@ -26,3 +26,14 @@ Vous avez probablement déjà entendu parler de MVC. Utilisé dans de nombreux l
 Structure de données représentant une entité de l'application, généralement transmise en JSON. 
 Pour bien démarrer avec Angular, quelques notions de JSON sont nécessaires, cela vous permettra de faire communiquer votre serveur et vos vues.
 Un groupe d’id d'utilisateurs pourrait par exemple ressembler à ceci :
+````
+{
+  "users" : [{
+    "name": "Joe Bloggs",
+    "id": "82047392"
+  },{
+    "name": "John Doe",
+    "id": "65198013"
+  }]
+}
+````
