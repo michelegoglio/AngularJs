@@ -217,4 +217,42 @@ Il y a plusieurs façons de définir une directive dans le DOM. Voici quelques e
 <!-- directive: custom-button -->
 ````
 
+Je préfère les utiliser sous forme d'attribut. Les éléments personnalisés feront partie de futures versions de HTML5 sous le nom de Web Components mais Angular les considère comme assez instables, en particulier pour les vieux navigateurs.
 
+Vous savez maintenant comment utiliser une directive, créons maintenant notre bouton. Encore une fois, j'utilise le namespace `myApp`. 
+
+Voici une directive dans sa forme la plus simple :
+````
+myApp.directive('customButton', function () {
+  return {
+    link: function (scope, element, attrs) {
+      // manipulation du DOM et événements
+    }
+  };
+});
+````
+
+Je définis ma directive avec la méthode `.directive()` en lui passant le nom de la directive `'customButton'`. 
+
+Lorsque vous capitalisez une lettre dans le nom d'une directive, il faut utiliser un tiret lorsque vous vous en servez (comme dans l'exemple vu plus haut).
+
+Une directive retourne une référence vers elle-même via un Object et accepte un certain nombre de paramètres. 
+
+Selon moi, les plus importants à connaitre sont `restrict`, `replace`, `transclude`, `template`, `templateUrl` et, bien sûr, la propriété `link`. 
+
+Ajoutons-les :
+````
+myApp.directive('customButton', function () {
+  return {
+    restrict: 'A',
+    replace: true,
+    transclude: true,
+    template: '<a href="" class="myawesomebutton" ng-transclude>' +
+                '<i class="icon-ok-sign"></i>' +
+              '</a>',
+    link: function (scope, element, attrs) {
+      // DOM manipulation/events here!
+    }
+  };
+});
+````
