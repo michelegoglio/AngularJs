@@ -298,8 +298,25 @@ Les templates injectés sont compilés par Angular, vous pouvez donc utiliser de
 
 ####templateUrl
 
-Similaire à template, permet de garder les templates dans leurs propres fichiers ou au sein de balises `<script>`. 
+Similaire à `template`, permet de garder les templates dans leurs propres fichiers ou au sein de balises `<script>`. 
 
 Cette propriété permet d'indiquer l'URL du template à utiliser. 
 
 Pour des morceaux de HTML un peu plus complexes, il est préférable de les placer chacun dans un fichier spécifique, dans un dossier templates :
+````
+myApp.directive('customButton', function () {
+  return {
+    templateUrl: 'templates/customButton.html'
+    // directive stuff...
+  };
+});
+````
+
+Et dans votre fichier (nom insensible à la casse) :
+
+````
+<!-- dans customButton.html -->
+<a href="" class="myawesomebutton" ng-transclude>
+  <i class="icon-ok-sign"></i>
+</a>
+````
