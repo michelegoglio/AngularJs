@@ -546,5 +546,102 @@ myApp.controller('MainCtrl', ['$scope', function ($scope) {
 }]);
 ````
 
+Tout à fait lisible.
+
+C'est ici que nous fusionnons la vue et le serveur en y attachant un modèle ou en mettant le modèle à jour dans le DOM. Disons que tout est déjà mis en place et affichons un nom d'utilisateur dans le DOM à partir d'un appel Ajax.
+
+En théorie, nous devrions concevoir notre JSON en premier, ce qui affecte la façon dont on l'attache à nos données. 
+
+Faisons simple, voici ce que le serveur nous fournit :
+````
+{
+  "user": {
+    "name": "Todd Motto",
+    "id": "80138731"
+  }
+}
+````
+
+Nous allons recevoir un Object (que nous appellerons data, on peut voir que data est passé à notre handler) et devons interagir avec la propriété `data.user`. Dans `data.user`, nous trouvons `name` et `id`. Obtenir leur valeur est assez simple, il nous suffit par exemple de faire appel à `data.user.name` ce qui nous donne 'Todd Motto’.
+
+Le code JavaScript :
+
+````
+myApp.controller('UserCtrl', ['$scope', '$http', function ($scope, $http) {
+
+  // Crée un Object user
+  $scope.user = {};
+
+  // Initialise le modèle avec une chaîne vide
+  $scope.user.username = '';
+
+  // Nous voulons effectuer la requête
+  // et obtenir le nom de l'utilisateur
+  $http({
+    method: 'GET',
+    url: '//localhost:9000/someUrlForGettingUsername'
+  })
+  .success(function (data, status, headers, config) {
+    // Ici nous assignons cet utilisateur à
+    // notre modèle existant !
+    $scope.user.username = data.user.name;
+  })
+  .error(function (data, status, headers, config) {
+    // Une erreur est survenue
+  });
+}]);
+````
+
+Il nous suffit maintenant de faire ceci dans le DOM :
+````
+<div ng-controller="UserCtrl">
+  <p>{{ user.username }}</p>
+</div>
+````
+
+Ceci va afficher le nom de l'utilisateur. 
+
+Nous allons faire un pas de plus et comprendre le data-binding déclaratif et c'est là que ça devient vraiment intéressant.
+
+##Data-binding déclaratif
+
+La philosophie d'Angular est de créer du HTML dynamique, riche en fonctionnalités et d'effectuer, de façon transparente, beaucoup de choses dont on n'oserait à peine rêver côté web client. 
+
+Et c'est exactement ce qu'ils ont fait.
+
+Imaginons que nous venons de faire une requête Ajax pour récupérer une liste d'emails avec leur sujet ainsi que leur date d'envoi et souhaitons les afficher dans le DOM. 
+
+C'est là qu'Angular montre toute sa force. Nous allons tout d'abord devoir écrire un contrôleur d'emails :
+
+````
+myApp.controller('EmailsCtrl', ['$scope', function ($scope) {
+
+  // Crée un Object emails
+  $scope.emails = {};
+
+  // Nous écrivons ici en dur les données normalement
+  // reçues du serveur
+  $scope.emails.messages = [{
+        "from": "Steve Jobs",
+        "subject": "I think I'm holding my phone wrong :/",
+        "sent": "2013-10-01T08:05:59Z"
+    },{
+        "from": "Ellie Goulding",
+        "subject": "I've got Starry Eyes, lulz",
+        "sent": "2013-09-21T19:45:00Z"
+    },{
+        "from": "Michael Stipe",
+        "subject": "Everybody hurts, sometimes.",
+        "sent": "2013-09-12T11:38:30Z"
+    },{
+        "from": "Jeremy Clarkson",
+        "subject": "Think I've found the best car... In the world",
+        "sent": "2013-09-03T13:15:11Z"
+    }];
+
+}]);
+````
+
+
 
 
