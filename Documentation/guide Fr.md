@@ -153,3 +153,28 @@ myApp.controller('UserCtrl', ['$scope', function ($scope) {
 
 }]);
 ````
+
+Poussons ces données vers le DOM pour les afficher :
+````
+<div ng-app="myApp">
+  <div ng-controller="UserCtrl">
+    <p class="username">Welcome, {{ user.details.username }}</p>
+    <p class="id">User ID: {{ user.details.id }}</p>
+  </div>
+</div>
+````
+
+Il est important de noter que les contrôleurs ont pour but de gérer les données et de contenir des fonctions (ou événements) qui parlent au serveur pour envoyer/recevoir des données JSON. 
+
+Aucune manipulation du DOM ne doit y prendre place, pas de jQuery ici donc. 
+
+La manipulation du DOM se fait par les directives que nous allons voir ensuite.
+
+Astuce : dans la documentation d'Angular (au moment de la rédaction de cet article) leurs exemples créent un contrôleur comme ceci :
+````
+var myApp = angular.module('myApp', []);
+
+function MainCtrl ($scope) {
+  //...
+};
+````
