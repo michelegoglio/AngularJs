@@ -352,3 +352,87 @@ myApp.service('Math', function () {
   };
 });
 ````
+
+Il s'utilise ensuite comme ceci dans un contrôleur :
+````
+myApp.controller('MainCtrl', ['$scope', function ($scope) {
+    var a = 12;
+    var b = 24;
+
+    // outputs 288
+    var result = Math.multiply(a, b);
+}]);
+````
+
+Je sais, une multiplication ne nécessite pas un service en soi mais vous voyez où je veux en venir.
+
+Lorsque l'on crée un service (ou une factory) il faut utiliser l'injection de dépendance pour indiquer à Angular de le prendre en charge. Sans cela, on aura une erreur de compilation et notre contrôleur plantera. 
+
+Vous avez sans doute remarqué la partie `function ($scope)` du contrôleur, c'est une simple injection de dépendance, c'est ici que le code doit être placé. Vous aurez remarqué également le `['$scope']` placé avant, j'y reviendrai plus tard. 
+
+Voici comment utiliser une injection de dépendance pour dire à Angular que vous voulez utiliser un service :
+````
+// Passez Math
+myApp.controller('MainCtrl', ['$scope', 'Math', function ($scope, Math) {
+    var a = 12;
+    var b = 24;
+
+    // outputs 288
+    var result = Math.multiply(a, b);
+}]);
+````
+
+###Factories
+
+Passer des services aux factories devrait être assez simple, on pourrait créer un Object Literal dans une factory ou simplement fournir des méthodes plus avancées :
+````
+myApp.factory('Server', function () {
+  return {
+    get: function(url) {
+      return $http.get(url);
+    },
+    post: function(url) {
+      return $http.post(url);
+    },
+  };
+});
+````
+
+Je crée ici un wrapper personnalisé pour l'objet XHR de Angular. Après injection de dépendance dans le contrôleur, l'utilisation est aisée :
+````
+myApp.controller('MainCtrl', ['$scope', 'Server', function ($scope, Server) {
+    var jsonGet = 'http://myserver/getURL';
+    var jsonPost = 'http://myserver/postURL';
+    Server.get(jsonGet);
+    Server.post(jsonPost);
+}]);
+````
+
+Si vous vouliez surveiller des changements côté serveur, vous pourriez mettre en place `Server.poll(jsonPoll)` ou, si vous utilisez par exemple un socket, vous pourriez mettre en place `Server.socket(jsonSocket)`. Ce mécanisme permet de modulariser le code et de créer des outils réutilisables tout en gardant le code des contrôleurs à son minimum.
+
+###Filtres
+
+Les filtres sont utiles avec les tableaux de données mais également en dehors des boucles. 
+
+Si vous parcourez une collection de données et que vous souhaitez les filtrer, vous êtes au bon endroit. 
+
+Les filtres peuvent également s'utiliser pour filtrer la saisie d'un utilisateur dans un champ `<input>` par exemple. Les filtres s'utilisent de deux façons : dans un contrôleur ou sous forme de méthode. Voici la version en méthode, qui peut s'utiliser partout :
+````
+myApp.filter('reverse', function () {
+  return function (input, uppercase) {
+    var out = '';
+    for (var i = 0; i < input.length; i++) {
+      out = input.charAt(i) + out;
+    }
+    if (uppercase) {
+      out = out.toUpperCase();
+    }
+    return out;
+  }
+});
+
+// Contrôleur inclus pour fournir des données
+myApp.controller('MainCtrl', ['$scope', function ($scope) {
+    $scope.greeting = 'Todd Motto';
+}]);
+````
