@@ -62,3 +62,37 @@ Nous devons mettre en place certaines choses avant de commencer.
 Cela revient, en général, à ajouter une déclaration ng-app, écrire un contrôleur pour parler à la vue puis l'inclusion d'Angular et un attachement au DOM. Voici l'essentiel :
 
 Un peu de HTML avec les déclarations `ng-*` :
+````
+<div ng-app="myApp">
+  <div ng-controller="MainCtrl">
+    <!-- logique du contrôleur -->
+  </div>
+</div>
+````
+
+Un module Angular et un contrôleur :
+````
+var myApp = angular.module('myApp', []);
+myApp.controller('MainCtrl', ['$scope', function ($scope) {
+  // Magie du contrôleur
+}]);
+````
+
+Avant de nous lancer, nous devons créer un module Angular dans lequel nous allons placer toute notre logique. 
+Il existe plusieurs manières de déclarer des modules et vous pouvez chaîner toute votre logique (je n'aime pas cette méthode) :
+````
+angular.module('myApp', [])
+.controller('MainCtrl', ['$scope', function ($scope) {...}])
+.controller('NavCtrl', ['$scope', function ($scope) {...}])
+.controller('UserCtrl', ['$scope', function ($scope) {...}]);
+````
+
+La mise en place un module global s'est révélée être la meilleure pratique sur les projets Angular sur lesquels j'ai travaillé. 
+L'absence de point-virgules ou les fermetures accidentelles de chaîne se sont montrées contre productives et ont souvent généré des erreurs de compilation. 
+Préférez cette approche :
+````
+var myApp = angular.module('myApp', []);
+myApp.controller('MainCtrl', ['$scope', function ($scope) {...}]);
+myApp.controller('NavCtrl', ['$scope', function ($scope) {...}]);
+myApp.controller('UserCtrl', ['$scope', function ($scope) {...}]);
+````
