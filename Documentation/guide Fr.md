@@ -52,3 +52,13 @@ La vue est simple, c'est votre HTML et/ou la sortie générée. Lorsque vous uti
 Comme son nom l'indique, cette couche contrôle des choses. 
 Mais quelles choses ? Des données. 
 Les contrôleurs permettent à votre serveur de communiquer avec la Vue, c'est le messager, vous pouvez donc mettre vos données à jour à la volée via ces canaux de communication entre le serveur et le client.
+
+###Mettre en place un projet AngularJS (l'essentiel)
+
+Tout d'abord, nous devons mettre en place le minimum vital d'un projet Angular. 
+
+Nous devons mettre en place certaines choses avant de commencer. 
+
+Cela revient, en général, à ajouter une déclaration ng-app, écrire un contrôleur pour parler à la vue puis l'inclusion d'Angular et un attachement au DOM. Voici l'essentiel :
+
+Un peu de HTML avec les déclarations `ng-*` :
