@@ -477,6 +477,74 @@ Et son utilisation dans `ng-repeat` :
 </li>
 ````
 
+Voilà notre tour des briques majeures d'Angular terminé. Ce n'est que le tout début de notre plongée en eaux profondes, mais c'est amplement suffisant pour vous permettre de créer votre première application Angular.
+
+##Binding de données à deux sens
+
+La première fois que j'ai entendu parler de binding de données à deux sens, je n'étais pas sûr de bien comprendre. La meilleure façon de le décrire est sous la forme d'un cercle de données synchronisées : si le modèle est mis à jour, la vue est mise à jour automatiquement ; si la vue est mise à jour, le modèle est automatiquement mis à jour. 
+
+Cela veut dire que sans rien faire, la donnée est synchronisée. Si je bind un `ng-model` à un `<input>` et commence à taper dans ce dernier, cela crée un modèle (ou met à jour un modèle existant) en même temps.
+
+Je crée ici le `<input>` et lui bind un modèle `myModel`, je peux ensuite utiliser les accolades pour afficher la donnée de mon modèle (ainsi que ses mises à jour) dans la vue :
+````
+<div ng-app="myApp">
+  <div ng-controller="MainCtrl">
+    <input type="text" ng-model="myModel" placeholder="Start typing..." />
+    <p>My model data: {{ myModel }}</p>
+  </div>
+</div>
+````
+````
+myApp.controller('MainCtrl', ['$scope', function ($scope) {
+  // On capture la donnée du modèle
+  // et/ou on l'initialise avec une chaîne de caractères vide
+  $scope.myModel = '';
+}]);
+````
+
+## Appels XHR/Ajax/$http et binding JSON
+
+Vous savez maintenant comment envoyer des données à `$scope` et comment fonctionne le binding de données dans les modèles. Il est donc maintenant temps de simuler quelques XHR vers le serveur. 
+
+Ce n'est pas essentiel pour un site web classique, à moins d'avoir des besoins Ajax spécifiques, c'est donc plus orienté vers la récupération de données pour une application web.
+
+En développement local, vous utilisez probablement Java, ASP .NET, PHP ou une autre techno pour faire tourner l'application.
+
+Que vous contactiez une bonne de données locale ou que vous utilisiez ce serveur comme une API pour communiquer avec une autre ressource, la mise en place est globalement la même.
+
+C'est ici que 'dollar http’ entre en scène. 
+
+C'est dorénavant votre meilleur ami. La méthode $http d'Angular est un wrapper bien pratique pour accéder aux données du serveur et est d'une utilisation très simple. Voici un petit exemple pour une requête GET qui, comme vous l'aurez deviné, récupère des données depuis le serveur. 
+
+Sa syntaxe est très proche de celle de jQuery, la transition est donc aisée :
+````
+myApp.controller('MainCtrl', ['$scope', function ($scope) {
+  $http({
+    method: 'GET',
+    url: '//localhost:9000/someUrl'
+  });
+}]);
+````
+
+Angular vous retourne ce qu'on appelle une promise ce qui est une façon très efficace et lisible de gérer les callbacks. 
+
+Les promises sont rattachées à la fonction qui les as créées via la notation `.myPromise()`. 
+
+Tout naturellement, nous avons la main sur `success` et `error` :
+````
+myApp.controller('MainCtrl', ['$scope', function ($scope) {
+  $http({
+    method: 'GET',
+    url: '//localhost:9000/someUrl'
+  })
+  .success(function (data, status, headers, config) {
+    // données récupérées avec succès
+  })
+  .error(function (data, status, headers, config) {
+    // erreur de récupération :(
+  });
+}]);
+````
 
 
 
