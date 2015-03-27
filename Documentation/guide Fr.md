@@ -320,3 +320,12 @@ Et dans votre fichier (nom insensible à la casse) :
   <i class="icon-ok-sign"></i>
 </a>
 ````
+
+L'intérêt de cette technique est que le fichier HTML va être mis en cache par le navigateur. Une alternative, qui n'est pas mise en cache, est de déclarer le template dans une balise `<script> `:
+````
+<script type="text/ng-template" id="customButton.html">
+<a href="" class="myawesomebutton" ng-transclude>
+  <i class="icon-ok-sign"></i>
+</a>
+</script>
+````
