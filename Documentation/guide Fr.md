@@ -96,3 +96,45 @@ myApp.controller('MainCtrl', ['$scope', function ($scope) {...}]);
 myApp.controller('NavCtrl', ['$scope', function ($scope) {...}]);
 myApp.controller('UserCtrl', ['$scope', function ($scope) {...}]);
 ````
+Chaque nouveau fichier que je crée utilise le namespace myApp ce qui le restreint à l'application. 
+Oui, je crée un nouveau fichier pour chaque Contrôleur, Directive, Factory ou tout autre élément (vous me remercierez plus tard). Joignez-les dans un fichier à la volée en utilisant Grunt ou un outil similaire.
+
+###Contrôleurs
+
+Maintenant que vous avez une idée de ce qu'est le MVC et que tout est en place, jetons un oeil à la façon dont Angular implémente les contrôleurs.
+
+Reprenons l'exemple vu plus haut et regardons pas à pas comment pousser des données dans le DOM depuis un contrôleur. 
+Angular utilise un système de template qui ressemble à ceci pour parler à votre HTML : `{{ handlebars }}`. 
+Idéalement, votre HTML ne contient aucun texte ou valeur en dur, cela permet de tirer un maximum d'Angular. 
+
+Voici un exemple dans lequel nous poussons une chaîne de caractères dans le DOM :
+````
+<div ng-app="myApp">
+  <div ng-controller="MainCtrl">
+    {{ text }}
+  </div>
+</div>
+````
+````
+var myApp = angular.module('myApp', []);
+
+myApp.controller('MainCtrl', ['$scope', function ($scope) {
+
+    $scope.text = 'Hello, Angular fanatic.';
+
+}]);
+````
+
+Le concept clé ici est `$scope` que vous passez à toutes vos fonctions au sein d'un contrôleur. 
+
+`$scope` fait référence à l'élément courant (ou zone courante) dans le DOM (ce qui est différent de this). 
+
+Il encapsule intelligemment les données et la logique pour que celles-ci soient limitées à l'élément. 
+
+Cela apporte une notion de publique/privé à JavaScript, ce qui est fantastique.
+
+Le concept de `$scope` peut faire peur de prime abord mais c'est votre canal de communication avec le DOM depuis le serveur (ou depuis les données statiques si vous en avez). La démo donne une petite idée de comment “pousser” des données dans le DOM.
+
+Regardons maintenant une structure de données plus représentative que nous avons hypothétiquement récupérée depuis le serveur pour afficher les détails de l'utilisateur. À partir de maintenant, j'utiliserai des données statiques, je vous montrerai plus tard comment récupérer dynamiquement des données JSON.
+
+Commençons par un peu de JavaScript :
