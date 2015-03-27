@@ -138,3 +138,18 @@ Le concept de `$scope` peut faire peur de prime abord mais c'est votre canal de 
 Regardons maintenant une structure de données plus représentative que nous avons hypothétiquement récupérée depuis le serveur pour afficher les détails de l'utilisateur. À partir de maintenant, j'utiliserai des données statiques, je vous montrerai plus tard comment récupérer dynamiquement des données JSON.
 
 Commençons par un peu de JavaScript :
+
+````
+var myApp = angular.module('myApp', []);
+
+myApp.controller('UserCtrl', ['$scope', function ($scope) {
+    // Créons un namespace pour les détails de l'utilisateur
+    // Également utile pour une aide visuelle dans le DOM
+    $scope.user = {};
+    $scope.user.details = {
+      "username": "Todd Motto",
+      "id": "89101112"
+    };
+
+}]);
+````
