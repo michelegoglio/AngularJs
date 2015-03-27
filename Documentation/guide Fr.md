@@ -436,3 +436,47 @@ myApp.controller('MainCtrl', ['$scope', function ($scope) {
     $scope.greeting = 'Todd Motto';
 }]);
 ````
+
+####DOM usage:
+````
+<div ng-app="myApp">
+  <div ng-controller="MainCtrl">
+    <p>Sans filtre: {{ greeting }}</p>
+    <p>Reverse: {{ greeting | reverse }}</p>
+  </div>
+</div>
+````
+
+Et voici comment l'utiliser dans un ng-repeat :
+````
+<ul>
+  <li ng-repeat="number in myNumbers |filter:oddNumbers">{{ number }}</li>
+</ul>
+````
+
+Voici également un cas d'utilisation réel de filtres dans un contrôleur :
+````
+myApp.controller('MainCtrl', ['$scope', function ($scope) {
+
+  $scope.numbers = [10, 25, 35, 45, 60, 80, 100];
+
+  $scope.lowerBound = 42;
+
+  // Does the Filters
+  $scope.greaterThanNum = function (item) {
+      return item > $scope.lowerBound;
+  };
+
+}]);
+````
+
+Et son utilisation dans `ng-repeat` :
+````
+<li ng-repeat="number in numbers | filter:greaterThanNum">
+  {{ number }}
+</li>
+````
+
+
+
+
