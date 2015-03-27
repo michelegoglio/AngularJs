@@ -329,3 +329,26 @@ L'intérêt de cette technique est que le fichier HTML va être mis en cache par
 </a>
 </script>
 ````
+
+Cela indique à Angular que c'est un ng-template et lui donne un ID. 
+
+Angular va chercher le `ng-template` ou le fichier *.hml. Je préfère utiliser des fichiers *.html, ils sont plus faciles à gérer, augmentent les performances et gardent le DOM propre. Si vous avez une centaine de directives, ce sera plus simple pour les parcourir.
+
+###Services
+
+Les services sont souvent une notion un peu floue. 
+
+D'après mes lectures et ma propre expérience, les services sont plus un design pattern de style qu'un réel apport de fonctionnalité. J'ai lu le code source d'Angular et a priori ils sont très proches des factories. 
+
+Ils passent par le même compilateur et semble avoir de nombreuses fonctionnalités en commun. 
+
+Il semble que les services soient préférables pour singleton et les factories pour les fonctions plus complexes comme les Object Literals ou d'autres cas plus compliqués.
+
+Voici un exemple de service qui multiplie deux nombres :
+````
+myApp.service('Math', function () {
+  this.multiply = function (x, y) {
+    return x * y;
+  };
+});
+````
