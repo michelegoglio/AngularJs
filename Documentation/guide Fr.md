@@ -256,3 +256,50 @@ myApp.directive('customButton', function () {
   };
 });
 ````
+
+Utilisez Inspecter l'Élément pour vérifier que les balises ont bien été injectées. 
+
+Je sais, il n'y a pas d'icône parce que je n'ai pas inclus Font Awesome, mais vous voyez le principe. 
+
+En ce qui concerne les propriétés d'une directive :
+
+####restrict
+
+Indique la méthode d'accès à l'élément. 
+
+Si votre projet doit être compatible avec d'anciennes versions d'IE, préférez une déclaration de type attribut ou classe.
+
+Indiquer `'A'` signifie attribut, `'E'` signifie élément, `'C'` signifie classe et `'M'` signifie commentaire. 
+
+La valeur par défaut est `'EA'`. 
+
+Oui, il est tout à fait possible d'utiliser plusieurs méthodes d'accès en même temps.
+
+
+####replace
+
+Indique si le balisage appelant la directive doit être remplacé ou non. 
+
+Dans l'exemple précédent, vous pouvez voir que le DOM initial est remplacé par le template de la directive.
+
+####transclude
+
+Indique si le DOM original doit être copié dans la directive. 
+
+Dans notre exemple, le texte ‘Click me’ apparait dans la directive lorsque celle-ci est affichée.
+
+####template
+
+Un template, comme ci-dessus, permet de déclarer le balisage à injecter.
+
+Il est préférable d'utiliser cette propriété pour de petits bouts de HTML uniquement. 
+
+Les templates injectés sont compilés par Angular, vous pouvez donc utiliser des balises handlebars et les bindings dans ceux-ci.
+
+####templateUrl
+
+Similaire à template, permet de garder les templates dans leurs propres fichiers ou au sein de balises `<script>`. 
+
+Cette propriété permet d'indiquer l'URL du template à utiliser. 
+
+Pour des morceaux de HTML un peu plus complexes, il est préférable de les placer chacun dans un fichier spécifique, dans un dossier templates :
