@@ -296,8 +296,9 @@ function personController($scope) {
 ````
 
 ###Controllers In External Files
+
 In larger applications, it is common to store controllers in external files.
-Just copy the code between the <script> tags into an external file named personController.js:
+Just copy the code between the `<script>` tags into an external file named personController.js:
 
 ````
 <div ng-app="" ng-controller="personController">
@@ -307,7 +308,7 @@ Last Name: <input type="text" ng-model="person.lastName"><br>
 Full Name: {{person.firstName + " " + person.lastName}}
 </div>
 <script src="personController.js"></script>
-
+````
 
 Another Example
 For the next example we will create a new controller file:
