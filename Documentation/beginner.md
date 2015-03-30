@@ -3,16 +3,18 @@
 * AngularJS is distributed as a JavaScript file, and can be added to a web page with a script tag:
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
 
-It is a good idea to place scripts at the bottom of the <body> element.
+It is a good idea to place scripts at the bottom of the `<body>` element.
 This improves page loading, because HTML loading is not blocked by scripts loading.
 
 
-AngularJS Extends HTML
-AngularJS extends HTML with ng-directives.
-The ng-app directive defines an AngularJS application.
-The ng-model directive binds element values (like the value of an input field) to the application.
-The ng-bind directive binds application data to the HTML view.
+##AngularJS Extends HTML
 
+AngularJS extends HTML with ng-directives.
+The `ng-app` directive defines an AngularJS application.
+The `ng-model` directive binds element values (like the value of an input field) to the application.
+The `ng-bind` directive binds application data to the HTML view.
+
+````
 <!DOCTYPE html>
 <html>
 <body>
@@ -23,6 +25,7 @@ The ng-bind directive binds application data to the HTML view.
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
 </body>
 </html>
+````
 
 AngularJS starts automatically when the web page has loaded.
 The ng-app directive tells AngularJS that the <div> element is the "owner" of an AngularJS application.
