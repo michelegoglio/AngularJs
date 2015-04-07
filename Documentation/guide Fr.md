@@ -1,4 +1,5 @@
 http://www.tinci.fr/blog/apprendre-angular-en-un-jour-le-guide-ultime/
+
 http://toddmotto.com/
 
 #Apprendre Angular en un jour, le guide ultime
