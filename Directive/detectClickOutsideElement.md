@@ -1,5 +1,5 @@
 ````
-module.directive('clickAnywhereButHere', function ($document) {
+tsSDV.directive('clickAnywhereButHere', function ($document) {
     return {
         restrict: 'A',
         link: function (scope, elem, attr, ctrl) {
@@ -13,9 +13,13 @@ module.directive('clickAnywhereButHere', function ($document) {
             })
         }
     }
+
 });
 
-<div class="dropDownSelected" click-anywhere-but-here="$context.gateways.isOpened=false" ng-click="$context.gateways.isOpened = true">
+					<div ng-show="showList" click-anywhere-but-here="showList=false">
 
-<div class="dropDownGatewayOptions" style="display:block" ng-show="$context.gateways.isOpened">test</div>
+					</div>
+					<section"  ng-show="showList">
+					
+					</div>
 ````
