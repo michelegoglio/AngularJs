@@ -37,3 +37,20 @@ app.directive("scroll", function ($window) {
     };
 });
 ````
+
+````
+  <section class="SDVResults">
+    <h1 id="offsetHeader">Offset header</h1>
+    <div id="headerToFix">
+           header to fix           
+    </div>
+    <div>
+        content
+    </div>
+    <div id="offsetTodayList">
+        content offset today list
+    </div>      
+  </section>
+    
+</div>
+````
