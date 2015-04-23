@@ -17,8 +17,8 @@ extension ng_route pour animations des vues
     <a href="/ng-route-ext/example/pictures">pictures</a> | 
     <a href="/ng-route-ext/example/games">games</a>
     
-    <ng-view class="frame ng-scope">
-      <div class="index ng-scope">INDEX</div>
+    <ng-view class="frame">
+      <div class="index">INDEX</div>
     </ng-view>
 </body>
 ````
