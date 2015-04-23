@@ -7,6 +7,7 @@ extension ng_route pour animations des vues
 
 **HTML**
 ````
+<html id="ng-app" ng-app="Test">
 <head>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.4/angular.min.js"></script>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular-animate.min.js"></script>
@@ -21,6 +22,7 @@ extension ng_route pour animations des vues
       <div class="index">INDEX</div>
     </ng-view>
 </body>
+</html>
 ````
 
 **Styles**
