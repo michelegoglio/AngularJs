@@ -7,7 +7,7 @@ extension ng_route pour animations des vues
 
 **HTML**
 ````
-<html id="ng-app" ng-app="Test">
+<html ng-app="Test">
 <head>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.4/angular.min.js"></script>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular-animate.min.js"></script>
@@ -160,3 +160,44 @@ extension ng_route pour animations des vues
   }
   </style>
   ````
+  
+**Script**
+````
+angular.module('Test', ['ngRoute', 'ngAnimate']).config(function(){});
+angular.module('Test').config(function($routeProvider, $locationProvider){
+  $routeProvider
+    .when('/', {
+      templateUrl: 'index.html',
+      controller: 'TestController',
+      name: 'index',
+      animations: {
+        pictures: ['to-bottom', 'from-top'],
+        games: ['to-right', 'from-left']
+      }
+    })
+    .when('/pictures', {
+      templateUrl: 'pictures.html',
+      controller: 'TestController',
+      name: 'pictures',
+      animations: {
+        index: ['from-bottom', 'to-top'],
+        games: ['to-right', 'from-left']
+      }
+    })
+    .when('/games', {
+      templateUrl: 'games.html',
+      controller: 'TestController',
+      name: 'games',
+      animations: {
+        index: ['to-left', 'from-right'],
+        pictures: ['to-left', 'from-right']
+      }
+    });
+    $locationProvider.html5Mode(true);
+}).run(function($templateCache){
+    $templateCache.put("index.html","<div class='index'>INDEX</div>");
+    $templateCache.put("pictures.html","<div class='pictures'>PICTURES</div>");
+    $templateCache.put("games.html","<div class='games'>GAMES</div>");
+}).controller('TestController', function($scope){
+});
+````
